@@ -25,6 +25,7 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
 {
     function setUp() 
     {
+        error_reporting (E_ALL & ~(E_DEPRECATED | E_STRICT));
         $this->oBeaut = new PHP_Beautifier();
     }
     /**
@@ -34,6 +35,10 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
      */
     function testDocBlockSample() 
     {
+        $this->markTestSkipped(
+            "PHP_DocBlockGenerator has changed its alignment algorithm.\n" .
+            "See http://pear.php.net/bugs/bug.php?id=16193"
+        );
         $sSample = dirname(__FILE__) . '/docblock_sample_file.phps';
         $sContent = file_get_contents($sSample);
         $this->oBeaut->setInputFile($sSample);

@@ -26,6 +26,7 @@ class BeautifierBugsTest extends PHPUnit_Framework_TestCase
     
     function setUp() 
     {
+        error_reporting (E_ALL & ~(E_DEPRECATED | E_STRICT));
         $this->oBeaut = new PHP_Beautifier();
     }
     function setText($sText) 
@@ -57,7 +58,13 @@ HEREDOC;
 
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+//        $sExpected = str_replace(array("\r"), "CR", $sExpected);
+//        $sExpected = str_replace(array("\n"), "LF", $sExpected);
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+//        $sTextActual = str_replace(array("\r"), "CR", $sTextActual);
+//        $sTextActual = str_replace(array("\n"), "LF", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * HEREDOC before parenthesis
@@ -84,7 +91,9 @@ HEREDOC
 );
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Bug 1597
@@ -108,7 +117,9 @@ if (\$_POST["url"] != "") //inserting data
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Bug 2301
@@ -129,7 +140,9 @@ SCRIPT;
 throw new AccountFindException();
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Bug from Pavel Chtchevaev, 2004-11-17
@@ -152,7 +165,9 @@ SCRIPT;
 \$o->_test1(\$c->test2()->test3());
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Bug 3257
@@ -211,7 +226,9 @@ class Foo {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Bug from Daniel Convissor, 2005-06-20
@@ -287,7 +304,9 @@ switch (\$var) {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     function testBugjuancarlos2005_09_13() 
     {
@@ -304,7 +323,9 @@ SCRIPT;
 <?php include_once ("turnos.conf.php")
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     function testBug5711() 
     {
@@ -337,7 +358,9 @@ class CampaignManagerConfig
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     function testBug6237() 
     {
@@ -357,7 +380,9 @@ SCRIPT;
 \$_SESSION['test_\$i'];
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * according to: http://pear.php.net/manual/en/standards.control.php
@@ -395,7 +420,9 @@ class Foo
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Bad code to detect tokens
@@ -451,7 +478,9 @@ switch (1) {
 echo 1;
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     function testBug7818() 
     {
@@ -467,7 +496,9 @@ SCRIPT;
 \$field->createElement(\$form, \$this->_table->{\$field->id}, \$defaults);
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Will be great if you can rewrite T_OPEN_TAG_WITH_ECHO 
@@ -541,7 +572,9 @@ function f1() {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * When using the "break" command, the command takes an optional parameter, see http://de.php.net/break for details. But this doesn't work when using the beautifier, because, for example "break 2;" morphs to "break2;" (notice the missing space, which makes the PHP interpreter quite sour :-(
@@ -583,7 +616,9 @@ while (++\$i) {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * When using the "break" command, the command takes an optional parameter, see http://de.php.net/break for details. But this doesn't work when using the beautifier, because, for example "break 2;" morphs to "break2;" (notice the missing space, which makes the PHP interpreter quite sour :-(
@@ -626,7 +661,9 @@ while (++\$i) {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * The beautifer removes the whitespaces left and right of the operator, so for example "echo 2 . 1 . 0 . "\n";" becomes "echo 2.1.0."\n";"
@@ -644,7 +681,9 @@ SCRIPT;
 echo (1.0 . " " . 2 . 3);
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Description:
@@ -684,7 +723,9 @@ class test {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * When processing the T_DOT in the partial tokenized script, and you use
@@ -754,7 +795,9 @@ if (empty(\$user_password) AND empty(\$user_password2)) {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
      * Doesn't works!
@@ -790,7 +833,9 @@ echo "This works: " . $arr["foo"][3];
 echo "You can even write {$obj->values[3]->name}";
 // echo "This is the value of the var named $name: {${$name}}";
 ?>';
-            $this->assertEquals($sExpected, $this->oBeaut->get());
+            $sTextActual = $this->oBeaut->get();
+            $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+            $this->assertEquals($sExpected, $sTextActual);
         }
         catch(Exception $oExp) {
             $this->assertTrue(false);
@@ -815,7 +860,9 @@ SCRIPT;
 \$html_on = (\$submit || \$refresh) ? ((!empty(\$HTTP_POST_VARS['disable_html'])) ? 0 : TRUE) : \$userdata['user_allowhtml'];
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
     
@@ -842,7 +889,9 @@ function example()
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
 
@@ -870,7 +919,9 @@ function example()
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
 
     
@@ -888,7 +939,9 @@ SCRIPT;
 }
 else echo 'b'; ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
     function testBug13805() 
@@ -927,7 +980,9 @@ default:
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
     
@@ -966,7 +1021,9 @@ class test
 */
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
     function testBug14175() 
@@ -990,7 +1047,9 @@ END
 );
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
      function testBug14429() 
     {
@@ -1026,7 +1085,9 @@ default:
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
 function testBug14459() 
     {
@@ -1047,7 +1108,9 @@ echo "Curly {{\$bye}}.";
 echo "Curly {" . \$bye . "}.";
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
     * Lowercase filter prepends the control structure with ugly space
@@ -1070,7 +1133,9 @@ if (\$a or \$b) {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     /**
     * Lowercase filter prepends the control structure with ugly space
@@ -1092,7 +1157,9 @@ $this->setText($sText);
 \$b == true;
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
     /** 
@@ -1116,7 +1183,9 @@ use OtherNamespace\ClassA;
 use AnotherNamespace\Class1 as Class2;
 ?>
 SCRIPT;
-            $this->assertEquals($sExpected, $this->oBeaut->get());
+            $sTextActual = $this->oBeaut->get();
+            $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+            $this->assertEquals($sExpected, $sTextActual);
         } else {
              $this->markTestSkipped(
               'Needs PHP5.3+');
@@ -1158,8 +1227,122 @@ class Z {
 }
 ?>
 SCRIPT;
-        $this->assertEquals($sExpected, $this->oBeaut->get());
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
+    }
+    /**
+    * Pear filter PHP_Beautifier_Filter_Pear with enabled
+    * "switch_without_indent" setting, this is enabled by default, 
+    * results in invalid code, if the case block contains 
+    * closing brackets in strings. 
+    */
+    
+    function testBug17063() {
+        //$this->oBeaut->startLog();
+        $this->oBeaut->addFilter('Pear');        
+        $sText = <<<SCRIPT
+function testFunction() {
+    \$foo = 'foo'; 
+    \$bar = 'bar'; 
+    switch (\$foo) {
+        case 'foo': 
+            return "string with var having braces {\$foo}{\$bar}"; 
+        break;
+        case 'bar': 
+            return \$foo{0} . \$bar{0};
+        break;
+        default:
+            return "\\$\${var}";
+    }
+}
+SCRIPT;
+$this->setText($sText);
+        $sExpected = <<<SCRIPT
+function testFunction() {
+    \$foo = 'foo'; 
+    \$bar = 'bar'; 
+    switch (\$foo) {
+        case 'foo': 
+            return "string with var having braces {\$foo}{\$bar}"; 
+        break;
+        case 'bar': 
+            return \$foo{0} . \$bar{0};
+        break;
+        default:
+            return "\\$\${var}";
+    }
+}
+SCRIPT;
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->assertEquals($sExpected, $sTextActual);
+    }
+    
+    
+    /**
+    * When using PHP_Beautifier on this code, the indenting of the switch
+    * does not return to normal after the switch. Other switch code works
+    * fine, so maybe it has something to do with the fact that 
+    * there is no "break", or that there is an if without brackets or "else". 
+    */
+    
+    function testBug14575() {
+        //$this->oBeaut->startLog();
+        $sText = <<<SCRIPT
+<?php
+define("dim", 3);
+define("blank", " ");
+\$hexdigits = str_repeat(" ",100);
+function showno(\$no) {
+    global \$hexdigits;
+    
+    if (\$no == blank) return '_';
+    switch (dim) {
+        case 3:
+        case 4:
+            return \$hexdigits[\$no % 16]; // (custom modulo?)
+        case 5:
+            return \$hexdigits[\$no + 9];
+        case 6:
+            if (\$no < 11) return \$hexdigits[\$no % 10]; // (custom modulo?)
+            if (\$no > 10) return \$hexdigits[\$no - 1 ];
+    }
+    return "_";
+}
+echo showno(rand(0, 100));
+?>
+SCRIPT;
+$this->setText($sText);
+        $sExpected = <<<SCRIPT
+<?php
+define("dim", 3);
+define("blank", " ");
+\$hexdigits = str_repeat(" ", 100);
+function showno(\$no) {
+    global \$hexdigits;
+    if (\$no == blank) return '_';
+    switch (dim) {
+        case 3:
+        case 4:
+            return \$hexdigits[\$no % 16]; // (custom modulo?)
+            
+        case 5:
+            return \$hexdigits[\$no + 9];
+        case 6:
+            if (\$no < 11) return \$hexdigits[\$no % 10]; // (custom modulo?)
+            if (\$no > 10) return \$hexdigits[\$no - 1];
+    }
+    return "_";
+}
+echo showno(rand(0, 100));
+?>
+SCRIPT;
+        $sTextActual = $this->oBeaut->get();
+        $sTextActual = str_replace(PHP_EOL, "\n", $sTextActual);
+        $this->markTestSkipped("Not yet finished. http://pear.php.net/bugs/bug.php?id=14575");
+        $this->assertEquals($sExpected, $sTextActual);
     }
     
 }
-?>
+
